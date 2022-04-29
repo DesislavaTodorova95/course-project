@@ -8,6 +8,8 @@ import { RecipeStartComponent } from 'src/app/recipes/recipe-start/recipe-start.
 import { RecipeDetailComponent } from 'src/app/recipes/recipe-detail/recipe-detail.component';
 import { RecipeEditComponent } from 'src/app/recipes/recipe-edit/recipe-edit.component';
 import {  RecipesResolverService } from 'src/app/recipes/recipes-resolver.service';
+import { AuthComponent } from 'src/app/auth/auth/auth.component';
+import { AuthGuard } from 'src/app/auth/auth/auth.guard';
 
 const appRoutes: Routes = [
   // { path: '', component: RecipesComponent, ====>>> pathMatch: 'full'}, instead of exact:true i can put this for full match ///
@@ -15,6 +17,7 @@ const appRoutes: Routes = [
   {
     path: 'recipes',
     component: RecipesComponent,
+    canActivate: [AuthGuard],
     children: [
       { path: '', component: RecipeStartComponent },
       { path: 'new', component: RecipeEditComponent,  resolve: [RecipesResolverService] },
@@ -22,6 +25,7 @@ const appRoutes: Routes = [
       { path: ':id/edit', component: RecipeEditComponent },
     ],
   },
+  {path: 'auth', component: AuthComponent},
   { path: 'shopping-list', component: ShoppingListComponent },
   { path: 'not-found', component: NotFoundComponent },
   { path: '**', redirectTo: 'not-found' },
